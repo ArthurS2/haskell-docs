@@ -4,7 +4,7 @@ title: 			Unit Tests for Haskell
 subtitle: 	How to write them
 
 author: 		Arthur Soulie
-version: 		1.0
+version: 		1.1
 
 noFormalities: 		true
 ---
