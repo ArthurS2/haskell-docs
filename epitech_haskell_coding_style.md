@@ -1,10 +1,10 @@
 ---
 module: 		Epitech Documentation
 title: 			Haskell Coding Style
-subtitle: 		Keep your functional code nice and clean
+subtitle: 	Keep your functional code nice and clean
 
-author: 		Marc Planard
-version: 		1.0
+author: 		Marc Planard, Arthur Soulie
+version: 		1.1
 
 noFormalities: 		true
 ---
@@ -29,7 +29,7 @@ Its philosophy is to write code in a **declarative** style as much as possible, 
 There are 3 levels of severity: **major** ![major](images/major.png), **minor** ![minor](images/minor.png) and **info** ![info](images/info.png). #br
 
 There are many and many ways to produce unclean code.
-Even though one cannot mention all of them in this document, they have to be respected. 
+Even though one cannot mention all of them in this document, they have to be respected.
 We call them **implicit rules** when not explicitly defined in this document.
 
 #warn(Implicit rules are considered as infos ![info](images/info.png).)
@@ -56,7 +56,7 @@ We call them **implicit rules** when not explicitly defined in this document.
 
 ## O3- File coherence
 
-![major](images/major.png) A Haskell project must be organised in **modules**, each of which should match a **logical entity**, and group all the functions and data structures associated with that entity.
+![major](images/major.png) A Haskell project must be organised in **modules**, each of which should match a **logical entity**, and group all the functions and data structures associated with that entity. Every haskell file (including Main) should declare a module.
 
 #hint(There is no limit to the number of functions in a single file)
 
@@ -66,13 +66,25 @@ We call them **implicit rules** when not explicitly defined in this document.
 
 #hint(It is tolerated for the file containing the main to be named after the project's executable, in lower-case.)
 
+## O5- Module exports
+
+![major](image/major.png) All modules should explicitly declare their exported definitions. Except the Main module, all modules are expected to export at least one definition.
+
+## O6- Epitech header
+
+![minor](image/minor.png) Every haskell file should start with a standard Epitech header.
+
 #newpage
 
 # E- Extensions
 
 ## E1- Language Extensions
 
-![major](images/major.png) All languages extensions are forbidden.
+![major](images/major.png) All language extensions are forbidden except if the project's subject says otherwise.
+
+## E2- Correct Language Pragma
+
+![minor](images/minor.png) Every LANGUAGE pragmas should contain a single extension.
 
 # T- Types
 
@@ -96,7 +108,7 @@ main = putStrLn "hello world"
 
 ![major](images/major.png) Mutable variables are strictly forbidden.
 
-#hint(This forbids the use of all types allowing mutation, such as 
+#hint(This forbids the use of all types allowing mutation, such as
  **Data.IORef**, **Data.STRef** or **Control.Concurrent.STM.TVar** but not **Control.Monad.Trans.State**)
 
 # F- Functions
@@ -113,11 +125,11 @@ A function should be less than 10 lines long and 80 columns wide.
 
 #hint(For example\, the `voyalsNb` and `dijkstra` functions are incorrectly named. `getVoyalsNumber` and `searchShortestPath` are more meaningful and precise.)
 
-All function names should be in English, according to the `lowerCamelCase` convention. Special characters are tolerated as long as they are justified and used sparingly. 
+All function names should be in English, according to the `lowerCamelCase` convention. Special characters are tolerated as long as they are justified and used sparingly.
 
 #hint(Abbreviations are tolerated if they significantly reduce the name without losing meaning.)
 
-#newpage 
+#newpage
 
 # V- Variables
 
@@ -127,7 +139,7 @@ All function names should be in English, according to the `lowerCamelCase` conve
 
 #hint(Abbreviations are tolerated as long as they significantly reduce the name length without losing meaning, or if they are idiosyncratic to Haskell \(for example: **x:xs**\))
 
-The type names and constructors should be **in English**, according to the **`UpperCamelCase` convention**. 
+The type names and constructors should be **in English**, according to the **`UpperCamelCase` convention**.
 
 
 
@@ -147,7 +159,7 @@ foo a b = if a == 0
           else if b > 0
                then a-b
                else b-a
-           
+
 -- No C1 violation
 foo :: Int -> Int -> Int
 foo 0 b = b
@@ -155,9 +167,9 @@ foo a b | b > 0 = a-b
         | otherwise = b-a
 ```
 
-## C2- Guards and pattern matching
+## C2- Guards and ifs expressed as pattern matching
 
-![major](images/major.png) Guards which can be expressed as pattern matchings must be expressed as such.
+![major](images/major.png) Guards and if statements which can be expressed as pattern matchings must be expressed as such.
 
 ```haskell
 -- C2 violation
@@ -169,6 +181,19 @@ foo lst | lst == [] = 0
 foo :: [Int] -> Int
 foo [] = 0
 foo (1:_) = 1
+```
+
+```haskell
+-- C3 violation
+bar :: Bool -> Int
+bar a = if a == True
+        then 42
+        else 84
+
+-- No C3 violation
+bar :: Bool -> Int
+bar True = 42
+bar False = 84
 ```
 
 
@@ -187,7 +212,7 @@ foo x y = do
   let x2 = x * x
   let y2 = y * y
   sqrt $ x + y
-  
+
 -- No D1 violation
 foo :: Int -> Int -> Int
 foo x y = let x2 = x * x
@@ -212,7 +237,7 @@ printUsage = do
     putStrLn "usage: foo [options] [files]"
     putStrLn "       -s : simple"
     putStrLn "       -h : hard"
-    
+
 -- No D1 violation
 printUsage :: IO ()
 printUsage = putStrLn "usage: foo [options] [files]" >>
